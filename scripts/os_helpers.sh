@@ -83,9 +83,9 @@ ensureDefaultShellIsZsh () {
     result="$(defaultShellIsZsh)"
 
     if [ $result == 0 ]; then
-        logHeader3 "Switching default shell to zsh"
+        logInfo "Switching default shell to zsh"
         chsh -s $(which zsh)
     else
-        logHeader3 "Default shell is already set to zsh"
+        logInfo "Default shell is already set to zsh"
     fi
 }

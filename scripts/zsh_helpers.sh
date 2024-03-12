@@ -7,7 +7,7 @@ zshSetupAliases () {
     local aliassrc=${1:-resources/.zsh_aliases}
     local aliastgt=${2:-$HOME/.zsh_aliases}
 
-    logHeader2 "Configuring aliases and autocompletion for zsh"
+    logHeader3 "Configuring aliases and autocompletion for zsh"
 
     logInfo "Copy '$aliassrc' from devenv repository to '$aliastgt'"
     cp -f $aliassrc $aliastgt
@@ -27,13 +27,22 @@ zshSetupAliases () {
 }
 
 #
+# Sets the default shell for this user to zsh
+# Require
+#
+zshSetAsDefaultShell () {
+    logHeader3 "Configuring ZSH as default shell for user '$USER'"
+    ensureDefaultShellIsZsh
+}
+
+#
 # Setup zsh theme
 #
 zshSetupTheme () {
     local theme=${1:-powerlevel10k/powerlevel10k}
     local zshrc=$HOME/.zshrc
 
-    logHeader3 "Updating ZSH_THEME in '$zshrc' to '$theme'"
+    logInfo "Updating ZSH_THEME in '$zshrc' to '$theme'"
     sed -i "s|^ZSH_THEME=.*|ZSH_THEME=\"$theme\"|" $zshrc
 }
 
@@ -43,10 +52,10 @@ zshSetupTheme () {
 zshSetupPowerlevel10k () {
     local zshcustom=${1:-$HOME/.oh-my-zsh/custom}
 
-    logHeader2 "Configuring PowerLevel10k for zsh"
+    logHeader3 "Configuring PowerLevel10k for zsh"
 
     local pl10k=$zshcustom/themes/powerlevel10k
-    logHeader3 "Updating Powerlevel10k repository '$pl10k'"
+    logInfo "Updating Powerlevel10k repository '$pl10k'"
 
     if ! [ -d $pl10k ]; then
         logInfo "Cloning powerlevel10k into '$pl10k'"
@@ -61,4 +70,30 @@ zshSetupPowerlevel10k () {
     aptPackageSetup fonts-firacode
 
     zshSetupTheme powerlevel10k/powerlevel10k
+}
+
+#
+# Setup oh-my-zsh
+#
+zshSetupOhMyZsh () {
+    logHeader3 "Setting up oh-my-zsh"
+
+    if ! [ -d $ZSH ]; then
+        logInfo "Configuring zsh shell with oh-my-zsh"
+        sh -c "$(wget -O- https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    else
+        logInfo "Oh-my-zsh already on this system"
+    fi
+}
+
+#
+# Setup zsh
+#
+zshSetup () {
+    logHeader2 "Setting up zsh shell"
+
+    zshSetAsDefaultShell
+    zshSetupOhMyZsh
+    zshSetupPowerlevel10k
+    zshSetupAliases
 }

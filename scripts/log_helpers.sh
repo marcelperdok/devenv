@@ -90,3 +90,12 @@ logWarn () {
 
     echo -e "${YELLOW}## ($(dateRfc)) WARNING: >> $txt${NOCOLOR}" >&2
 } 
+
+#
+# Prints TODO message
+#
+logTodo () {
+    local txt=$1
+
+    echo -e "${CYAN}## ($(dateRfc)) TODO   : >> $txt${NOCOLOR}" >&2
+} 

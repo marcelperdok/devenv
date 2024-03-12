@@ -74,3 +74,20 @@ aptPackageSetup () {
 
     aptEnsurePackageIsInstalled $package
 }
+
+#
+# Prepares apt
+# Requires sudo
+#
+aptPrepare () {
+    logHeader2 "Preparing apt package manager"
+
+    logHeader3 "Updating apt"
+    sudo apt update -y
+    
+    logHeader3 "Upgrading apt"
+    sudo apt upgrade -y
+
+    logHeader3 "Removing unused apt packages"
+    sudo apt autoremove -y
+}

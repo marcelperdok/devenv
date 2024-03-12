@@ -7,6 +7,7 @@ source scripts/git_helpers.sh
 source scripts/kubernetes_helpers.sh
 source scripts/log_helpers.sh
 source scripts/os_helpers.sh
+source scripts/zsh_helpers.sh
 
 export debug=0
 export verbose=0
@@ -19,7 +20,7 @@ export clonerepositories=0
 
 showHelp() {
 cat << EOF
-Usage: ./devenv_1.sh [-hcdiln:r:f:tuv --cleanrepositories --clonerepositories]
+Usage: ./devenv.sh [-hcdiln:r:f:tuv --cleanrepositories --clonerepositories]
 Bootstrap development environment
 
 -h, -help,              --help              Display this help
@@ -80,7 +81,7 @@ esac
 shift
 done
 
-logHeader1 "Setting up Development Environment - phase 1"
+logHeader1 "Setting up Development Environment"
 
 logHeader2 "Configuring Ubuntu system wide settings"
 logHeader3 "Synchronizing WSL2 / Ubuntu system clock"
@@ -95,15 +96,7 @@ logHeader2 "Creating directories"
 logInfo "Creating $HOME/.local/bin"
 mkdir -p $HOME/.local/bin
 
-logHeader2 "Preparing apt package manager"
-logHeader3 "Updating apt"
-sudo apt update -y
-
-logHeader3 "Removing unused apt packages"
-sudo apt autoremove -y
-
-logHeader3 "Upgrading apt"
-sudo apt upgrade -y
+aptPrepare
 
 logHeader2 "Install required apt packages"
 logHeader3 "Installing apt libraries"
@@ -121,11 +114,11 @@ azCliSetup $verbose
 logHeader2 "Setting up Kubernetes components for development"
 kubeClientSetup $verbose
 
+zshSetup
+
 gitSetupDevelopmentRepositories $repobase $repofile $setuprepositories $cleanrepositories $verbose
 
-logHeader2 "Configuring ZSH as default shell for user '$USER'"
-ensureDefaultShellIsZsh
-
-logHeader2 "Setup development completed - phase 1"
-logInfo "Log out and in again to switch to zsh shell and continue with devenv_2.sh"
-logInfo "When prompted for intial zsh setup, select option '2'"
+logHeader2 "Setup of Development Environment completed"
+logTodo "Log out and in again to switch to zsh shell"
+logTodo "When prompted for initial zsh setup, select option '2'"
+logTodo "Run 'p10k configure' from your zsh prompt to (re)configure PowerLevel10k"
