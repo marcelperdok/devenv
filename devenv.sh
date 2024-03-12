@@ -7,6 +7,7 @@ source scripts/git_helpers.sh
 source scripts/kubernetes_helpers.sh
 source scripts/log_helpers.sh
 source scripts/os_helpers.sh
+source scripts/vscode_helpers.sh
 source scripts/zsh_helpers.sh
 
 export debug=0
@@ -115,6 +116,8 @@ logHeader2 "Setting up Kubernetes components for development"
 kubeClientSetup $verbose
 
 zshSetup
+
+vscodeInstallExtensions
 
 gitSetupDevelopmentRepositories $repobase $repofile $setuprepositories $cleanrepositories $verbose
 
