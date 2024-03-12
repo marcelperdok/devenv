@@ -87,6 +87,65 @@ zshSetupOhMyZsh () {
 }
 
 #
+# Setup zsh auto suggestions plugin
+#
+zshSetupAutoSuggestionsPlugin () {
+    local zshcustom=${1:-$HOME/.oh-my-zsh/custom}
+    local plugin=zsh-autosuggestions
+
+    logHeader3 "Setting up '$plugin' plugin for zsh"
+
+    local repo=$zshcustom/plugins/$plugin
+    logInfo "Updating $plugin repository '$repo'"
+
+    if ! [ -d $repo ]; then
+        logInfo "Cloning $plugin into '$repo'"
+        git clone https://github.com/zsh-users/zsh-autosuggestions $repo
+    fi
+
+    pushd $repo
+    logInfo "Syncing '$repo' with remote"
+    git pull
+    popd
+}
+
+#
+# Setup zsh syntax highlighting plugin
+#
+zshSetupSyntaxHighlightingPlugin () {
+    local zshcustom=${1:-$HOME/.oh-my-zsh/custom}
+    local plugin=zsh-syntax-highlighting
+
+    logHeader3 "Setting up '$plugin' plugin for zsh"
+
+    local repo=$zshcustom/plugins/$plugin
+    logInfo "Updating $plugin repository '$repo'"
+
+    if ! [ -d $repo ]; then
+        logInfo "Cloning $plugin into '$repo'"
+        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $repo
+    fi
+
+    pushd $repo
+    logInfo "Syncing '$repo' with remote"
+    git pull
+    popd
+}
+
+#
+# Setup zsh plugins
+#
+zshSetupPlugins () {
+    zshSetupAutoSuggestionsPlugin
+    zshSetupSyntaxHighlightingPlugin
+
+    local zshrc=$HOME/.zshrc
+    local list='git zsh-syntax-highlighting zsh-autosuggestions'
+    logInfo "Updating plugins=() in '$zshrc' to 'plugins=($list)'"
+    sed -i "s|^plugins=.*|plugins=( $list )|" $zshrc
+}
+
+#
 # Setup zsh
 #
 zshSetup () {
@@ -95,5 +154,6 @@ zshSetup () {
     zshSetAsDefaultShell
     zshSetupOhMyZsh
     zshSetupPowerlevel10k
+    zshSetupPlugins
     zshSetupAliases
 }
