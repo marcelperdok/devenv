@@ -1,0 +1,9 @@
+# Apt
+alias update='sudo apt update && sudo apt upgrade -y'
+
+# Kubernetes
+autoload -Uz compinit
+compinit
+alias k=kubectl
+source <(kubectl completion zsh)
+compdef k='kubectl'

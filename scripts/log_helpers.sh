@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-source scripts/os_helpers.sh
-
 RED='\033[31m'
 GREEN='\033[32m'
 YELLOW='\033[33m'
@@ -31,7 +29,6 @@ logHeader2 () {
 
     echo -e "${GREEN}##------------------------------------------------------------------------------${NOCOLOR}"
     echo -e "${GREEN}## ($(dateRfc)) $txt${NOCOLOR}"
-    echo -e "${GREEN}##${NOCOLOR}"
 }
 
 #

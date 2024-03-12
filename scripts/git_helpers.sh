@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-source scripts/log_helpers.sh
-source scripts/os_helpers.sh
-
 #
 # Initializes git config
 #
@@ -30,37 +27,42 @@ gitConfigInit () {
 }
 
 #
-# Load repository info from configuration file and clone them into given directory
+# Load git repository info from configuration file and set them up 
 #
-gitCloneRepositories () {
+gitSetupDevelopmentRepositories () {
     local repobase=$1
     local repofile=$2
-    local clean=${3:-0}
-    local verbose=${4:-0}
+    local setup=${3:-0}
+    local clean=${4:-0}
+    local verbose=${5:-0}
 
-    logHeader2 "Cloning git repositories"
+    if [ $setup == 1 ]; then
+        logHeader2 "Setting up git repositories for development"
 
-    while read -r repoinfo; do
-        reponame=$(echo "$repoinfo" | awk -F'/' '{print $NF}')
-        repodir="$repobase/$reponame"
+        while read -r repoinfo; do
+            reponame=$(echo "$repoinfo" | awk -F'/' '{print $NF}')
+            repodir="$repobase/$reponame"
 
-        logHeader3 "Setting up repository '$reponame' in '$repodir'"
+            logHeader3 "Setting up repository '$reponame' in '$repodir'"
 
-        if [ -d $repodir ] && [ $clean == 1 ]; then
-            logInfo "Removing repository '$reponame' from directory '$repodir'"
-            rm -rf $repodir 2> /dev/null
-        fi
+            if [ -d $repodir ] && [ $clean == 1 ]; then
+                logInfo "Clean repositories requested, removing repository '$reponame' from directory '$repodir'"
+                rm -rf $repodir 2> /dev/null
+            fi
 
-        if ! [ -d $repodir ]; then
-            pushd $repobase
-            logInfo "Cloning repository '$repoinfo' into directory '$repobase'"
-            git clone $repoinfo
-            popd
-        fi
+            if ! [ -d $repodir ]; then
+                pushd $repobase
+                logInfo "Cloning repository '$repoinfo' into directory '$repobase'"
+                git clone $repoinfo
+                popd
+            fi
 
-        logInfo "Syncing '$repoinfo' with remote"
-        git fetch origin --prune
-        git pull
+            logInfo "Syncing '$repoinfo' with remote"
+            git fetch origin --prune
+            git pull
 
-    done < $repofile
+        done < $repofile
+    else
+        logHeader2 "Setup git repositories for development disabled; skipping step"
+    fi
 }
