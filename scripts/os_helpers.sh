@@ -23,8 +23,7 @@ assertCommandIsAvailable () {
     if [ $available == 1 ]; then
         logInfo "Found command '$(command -v $cmd)'"
     else
-        logFatal "'Command $cmd' is not available"
-        exit 1
+        logFatal "Command '$cmd' is not available"
     fi
 }
 

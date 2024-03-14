@@ -46,7 +46,7 @@ aptCommandSetup () {
     aptEnsureCommandIsAvailable $cmd $package
     
     # Ignore error when command does not support --version
-    logDebug "$($cmd --version 2> /dev/null)" $verbose
+    logDebug "$($cmd --version 2> /dev/null)$($cmd version 2> /dev/null)" $verbose
 }
 
 #

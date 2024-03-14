@@ -13,17 +13,7 @@ zshSetupAliases () {
     cp -f $aliassrc $aliastgt
 
     local zshrc=$HOME/.zshrc
-    local result=$(grep "^source $aliastgt" $zshrc | wc -l)
-    if [ $result == 0 ]; then
-        logInfo "Updating $zshrc file with alias configuration '$aliastgt'"
-        
-        echo >> $zshrc
-        echo >> $zshrc
-        echo "# Added by devenv scripting on $(dateRfc)" >> $zshrc
-        echo "source $aliastgt" >> $zshrc
-    else
-        logInfo "$zshrc already includes custom aliases defined in '$aliastgt'"
-    fi
+    cfgSetSourceScript $zshrc "$aliastgt" $verbose
 }
 
 #

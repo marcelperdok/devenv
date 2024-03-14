@@ -3,7 +3,10 @@ set -e
 
 source scripts/apt_helpers.sh
 source scripts/azure_helpers.sh
+source scripts/config_helpers.sh
+source scripts/docker_helpers.sh
 source scripts/git_helpers.sh
+source scripts/golang_helpers.sh
 source scripts/kubernetes_helpers.sh
 source scripts/log_helpers.sh
 source scripts/os_helpers.sh
@@ -96,28 +99,38 @@ gitConfigInit $username $useremail $verbose
 logHeader2 "Creating directories"
 logInfo "Creating $HOME/.local/bin"
 mkdir -p $HOME/.local/bin
+logInfo "Creating $HOME/.local/config/path"
+mkdir -p $HOME/.local/config/path
+logInfo "Creating $HOME/tmp"
+mkdir -p $HOME/tmp
 
-aptPrepare
+# aptPrepare
 
 logHeader2 "Install required apt packages"
 logHeader3 "Installing apt libraries"
-aptPackageSetup apt-transport-https
-aptPackageSetup ca-certificates
+# aptPackageSetup apt-transport-https
+# aptPackageSetup ca-certificates
 
 logHeader3 "Installing apt tools"
-aptCommandSetup zsh zsh $verbose
-aptCommandSetup curl curl $verbose
-aptCommandSetup wget wget $verbose
-
-logHeader2 "Setting up Azure components for development"
-azCliSetup $verbose
-
-logHeader2 "Setting up Kubernetes components for development"
-kubeClientSetup $verbose
+# aptCommandSetup zsh zsh $verbose
+# aptCommandSetup curl curl $verbose
+# aptCommandSetup wget wget $verbose
 
 zshSetup
 
-vscodeInstallExtensions
+logHeader2 "Setting up GoLang for development"
+goSetup "1.22.1" $verbose
+
+logHeader2 "Setting up Azure components for development"
+# azCliSetup $verbose
+
+logHeader2 "Setting up Docker for development"
+# dockerSetup $verbose
+
+logHeader2 "Setting up Kubernetes components for development"
+# kubeClientSetup $verbose
+
+#vscodeInstallExtensions
 
 gitSetupDevelopmentRepositories $repobase $repofile $setuprepositories $cleanrepositories $verbose
 

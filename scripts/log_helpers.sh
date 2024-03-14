@@ -72,7 +72,7 @@ logError () {
 }
 
 #
-# Prints fatal message
+# Prints fatal message and aborts
 #
 logFatal () {
     local txt=$1
@@ -80,6 +80,8 @@ logFatal () {
     echo -e "${PURPLE}##${NOCOLOR}" >&2
     echo -e "${PURPLE}## ($(dateRfc)) FATAL:   >> $txt${NOCOLOR}" >&2
     echo -e "${PURPLE}##${NOCOLOR}" >&2
+
+    exit 1
 } 
 
 #
