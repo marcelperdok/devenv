@@ -77,7 +77,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=( git zsh-syntax-highlighting zsh-autosuggestions )
 
 source $ZSH/oh-my-zsh.sh
 
@@ -109,3 +109,18 @@ source $ZSH/oh-my-zsh.sh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# Added by devenv scripting on 2024-03-19 20:44:31+01:00
+export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/wsl/lib
+
+# Added by devenv scripting on 2024-03-19 20:45:24+01:00
+[[ ! -f /home/marcel/.zsh_aliases ]] || source /home/marcel/.zsh_aliases # Updated on 2024-03-19 20:54:03+01:00 by devenv scripting
+
+# Added by devenv scripting on 2024-03-19 20:45:24+01:00
+export GOROOT=/usr/local/go
+
+# Added by devenv scripting on 2024-03-19 20:45:24+01:00
+export GOPATH=/home/marcel/go
+
+# Added by devenv scripting on 2024-03-19 20:45:24+01:00
+[[ ! -f /home/marcel/.local/config/path/set_golang_path.sh ]] || source /home/marcel/.local/config/path/set_golang_path.sh # Updated on 2024-03-19 20:54:07+01:00 by devenv scripting

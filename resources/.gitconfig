@@ -1,0 +1,9 @@
+[user]
+	name = "Marcel Perdok"
+	email = "marcel.perdok@cgi.com"
+[color]
+	ui = auto
+[core]
+	autocrlf = input
+[credential "https://dev.azure.com"]
+	useHttpPath = true
