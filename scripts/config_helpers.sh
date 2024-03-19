@@ -154,19 +154,3 @@ cfgSetSourceScript () {
         cfgUpdateSourceScript $cfg $script $verbose
     fi
 }
-
-#
-# Setup custom PATH configuration
-#
-cfgSetCustomPath () {
-    local cfg=$1
-    local script=$2
-    local path=${3:-$HOME/.local/config/path}
-    local verbose=${4:-0}
-
-    local ps=$path/$script
-    
-    if [ -f $ps ]; then
-        logInfo "Custom PATH script '$ps' already exists; removing it"
-    fi
-}

@@ -19,11 +19,11 @@ goSetup () {
         assertCommandIsAvailable curl
 
         logInfo "Downloading go ${goversion}"
-        # curl -fsSL $gosrc -o $gotgt
+        curl -fsSL $gosrc -o $gotgt
 
         logInfo "Extracting '$gotgt' to '/usr/local'"
         pushd $tmp
-    #    sudo tar -xvf $gofile -C /usr/local
+        sudo tar -xvf $gofile -C /usr/local
         popd
 
         logDebug "Removing download '$gotgt'" $verbose
@@ -31,16 +31,14 @@ goSetup () {
 
         local cfg="$HOME/.zshrc"
         local gopath="$HOME/go"
+
         cfgSetProperty "$cfg" 'export GOROOT' '/usr/local/go' '=' $verbose
         mkdir -p $gopath 
         cfgSetProperty "$cfg" 'export GOPATH' "$gopath" '=' $verbose
         cfgSetSourceScript "$cfg" "$HOME/.local/config/path/set_golang_path.sh"
-        #export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+        echo 'export PATH=$PATH:$GOPATH/bin:$GOROOT/bin' > $HOME/.local/config/path/set_golang_path.sh
     else
         # TODO: Perhaps handle release upgrades based on provided version...
         logInfo "Go already installed"
     fi
-
-    #assertCommandIsAvailable go
-    #logDebug "$(go version)" $verbose
 }

@@ -68,7 +68,9 @@ zshSetupPowerlevel10k () {
 zshSetupOhMyZsh () {
     logHeader3 "Setting up oh-my-zsh"
 
-    if ! [ -d $ZSH ]; then
+    local zsh=$HOME/.oh-my-zsh
+
+    if ! [ -d $zsh ]; then
         logInfo "Configuring zsh shell with oh-my-zsh"
         sh -c "$(wget -O- https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
     else
@@ -133,17 +135,4 @@ zshSetupPlugins () {
     local list='git zsh-syntax-highlighting zsh-autosuggestions'
     logInfo "Updating plugins=() in '$zshrc' to 'plugins=($list)'"
     sed -i "s|^plugins=.*|plugins=( $list )|" $zshrc
-}
-
-#
-# Setup zsh
-#
-zshSetup () {
-    logHeader2 "Setting up zsh shell"
-
-    zshSetAsDefaultShell
-    zshSetupOhMyZsh
-    zshSetupPowerlevel10k
-    zshSetupPlugins
-    zshSetupAliases
 }

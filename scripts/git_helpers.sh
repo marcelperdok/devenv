@@ -16,8 +16,8 @@ gitConfigInit () {
     git config --global core.autocrlf input
     
     # workaround to handle windows path
-    ln -sf "/mnt/c/Program Files (x86)/Git Credential Manager/git-credential-manager.exe" $HOME/.local/bin/git-credential-manager.exe
-    git config --global credential.helper $HOME/.local/bin/git-credential-manager.exe
+    # ln -sf "/mnt/c/Program Files (x86)/Git Credential Manager/git-credential-manager.exe" $HOME/.local/bin/git-credential-manager.exe
+    # git config --global credential.helper $HOME/.local/bin/git-credential-manager.exe
 
     # Required for Azure DevOps (see https://github.com/git-ecosystem/git-credential-manager/blob/main/docs/faq.md) 
     # TODO: Move to .gitattributes?
