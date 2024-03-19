@@ -87,4 +87,7 @@ dockerSetup $verbose
 logHeader2 "Setting up Kubernetes components for development"
 kubeClientSetup $verbose
 
+logHeader3 "Setting up kind"
+/usr/local/go/bin/go install sigs.k8s.io/kind@v0.22.0
+
 logHeader2 "Setup of Development Environment completed"
